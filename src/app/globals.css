@@ -670,6 +670,7 @@ body::after {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   transition: all 0.3s ease;
+  isolation: isolate;
 }
 
 .nav-scrolled {
@@ -857,4 +858,35 @@ footer .card {
   50% { background-position: 100% 100%; }
   75% { background-position: 0% 100%; }
   100% { background-position: 0% 50%; }
+}
+
+/* Language Dropdown Z-Index Fix for Mobile */
+.language-dropdown-overlay {
+  position: fixed !important;
+  z-index: 999999 !important;
+  isolation: isolate;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+  pointer-events: auto;
+}
+
+/* Ensure dropdown is on top on iOS Safari */
+@supports (-webkit-touch-callout: none) {
+  .language-dropdown-overlay {
+    -webkit-transform: translate3d(0, 0, 999px);
+    transform: translate3d(0, 0, 999px);
+  }
+}
+
+/* Fix for mobile devices */
+@media (max-width: 768px) {
+  .language-dropdown-overlay {
+    position: fixed !important;
+    z-index: 9999999 !important;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+  }
 }
