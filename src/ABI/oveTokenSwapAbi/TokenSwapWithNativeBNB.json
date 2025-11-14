@@ -12,6 +12,11 @@
                     "name": "_feeRecipient",
                     "type": "address",
                     "internalType": "address"
+                },
+                {
+                    "name": "_admin",
+                    "type": "address",
+                    "internalType": "address"
                 }
             ],
             "stateMutability": "nonpayable"
@@ -22,58 +27,6 @@
         },
         {
             "type": "function",
-            "name": "AAVE_USD_TESTNET",
-            "inputs": [],
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address",
-                    "internalType": "address"
-                }
-            ],
-            "stateMutability": "view"
-        },
-        {
-            "type": "function",
-            "name": "ADA_USD_TESTNET",
-            "inputs": [],
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address",
-                    "internalType": "address"
-                }
-            ],
-            "stateMutability": "view"
-        },
-        {
-            "type": "function",
-            "name": "BNB_USD_MAINNET",
-            "inputs": [],
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address",
-                    "internalType": "address"
-                }
-            ],
-            "stateMutability": "view"
-        },
-        {
-            "type": "function",
-            "name": "BNB_USD_TESTNET",
-            "inputs": [],
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address",
-                    "internalType": "address"
-                }
-            ],
-            "stateMutability": "view"
-        },
-        {
-            "type": "function",
             "name": "BPS_DENOMINATOR",
             "inputs": [],
             "outputs": [
@@ -81,58 +34,6 @@
                     "name": "",
                     "type": "uint256",
                     "internalType": "uint256"
-                }
-            ],
-            "stateMutability": "view"
-        },
-        {
-            "type": "function",
-            "name": "BTC_USD_MAINNET",
-            "inputs": [],
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address",
-                    "internalType": "address"
-                }
-            ],
-            "stateMutability": "view"
-        },
-        {
-            "type": "function",
-            "name": "BTC_USD_TESTNET",
-            "inputs": [],
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address",
-                    "internalType": "address"
-                }
-            ],
-            "stateMutability": "view"
-        },
-        {
-            "type": "function",
-            "name": "BUSD_USD_TESTNET",
-            "inputs": [],
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address",
-                    "internalType": "address"
-                }
-            ],
-            "stateMutability": "view"
-        },
-        {
-            "type": "function",
-            "name": "ETH_USD_MAINNET",
-            "inputs": [],
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address",
-                    "internalType": "address"
                 }
             ],
             "stateMutability": "view"
@@ -153,19 +54,6 @@
         {
             "type": "function",
             "name": "NATIVE_BNB",
-            "inputs": [],
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address",
-                    "internalType": "address"
-                }
-            ],
-            "stateMutability": "view"
-        },
-        {
-            "type": "function",
-            "name": "USDT_USD_MAINNET",
             "inputs": [],
             "outputs": [
                 {
@@ -203,34 +91,6 @@
         },
         {
             "type": "function",
-            "name": "addMainnetTokens",
-            "inputs": [
-                {
-                    "name": "wbnbAddress",
-                    "type": "address",
-                    "internalType": "address"
-                },
-                {
-                    "name": "ethAddress",
-                    "type": "address",
-                    "internalType": "address"
-                },
-                {
-                    "name": "btcAddress",
-                    "type": "address",
-                    "internalType": "address"
-                },
-                {
-                    "name": "usdtAddress",
-                    "type": "address",
-                    "internalType": "address"
-                }
-            ],
-            "outputs": [],
-            "stateMutability": "nonpayable"
-        },
-        {
-            "type": "function",
             "name": "addOVELiquidity",
             "inputs": [
                 {
@@ -260,27 +120,9 @@
                     "name": "active",
                     "type": "bool",
                     "internalType": "bool"
-                }
-            ],
-            "outputs": [],
-            "stateMutability": "nonpayable"
-        },
-        {
-            "type": "function",
-            "name": "addTestnetTokens",
-            "inputs": [
-                {
-                    "name": "wbnbAddress",
-                    "type": "address",
-                    "internalType": "address"
                 },
                 {
-                    "name": "btcAddress",
-                    "type": "address",
-                    "internalType": "address"
-                },
-                {
-                    "name": "busdAddress",
+                    "name": "priceFeed",
                     "type": "address",
                     "internalType": "address"
                 }
@@ -445,13 +287,6 @@
         },
         {
             "type": "function",
-            "name": "configureForMainnet",
-            "inputs": [],
-            "outputs": [],
-            "stateMutability": "nonpayable"
-        },
-        {
-            "type": "function",
             "name": "emergencyWithdraw",
             "inputs": [
                 {
@@ -504,6 +339,76 @@
                     "name": "",
                     "type": "address",
                     "internalType": "address"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getAllSupportedTokens",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "tokens",
+                    "type": "tuple[]",
+                    "internalType": "struct OveSwap.TokenInfo[]",
+                    "components": [
+                        {
+                            "name": "tokenAddress",
+                            "type": "address",
+                            "internalType": "address"
+                        },
+                        {
+                            "name": "isSupported",
+                            "type": "bool",
+                            "internalType": "bool"
+                        },
+                        {
+                            "name": "isActive",
+                            "type": "bool",
+                            "internalType": "bool"
+                        },
+                        {
+                            "name": "manualExchangeRate",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "currentExchangeRate",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "hasPriceFeed",
+                            "type": "bool",
+                            "internalType": "bool"
+                        },
+                        {
+                            "name": "priceFeedAddress",
+                            "type": "address",
+                            "internalType": "address"
+                        },
+                        {
+                            "name": "tokenPriceUSD",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "usingAutomaticPricing",
+                            "type": "bool",
+                            "internalType": "bool"
+                        },
+                        {
+                            "name": "manualRateOverride",
+                            "type": "bool",
+                            "internalType": "bool"
+                        },
+                        {
+                            "name": "contractBalance",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        }
+                    ]
                 }
             ],
             "stateMutability": "view"
@@ -582,6 +487,38 @@
         },
         {
             "type": "function",
+            "name": "getSupportedTokenByIndex",
+            "inputs": [
+                {
+                    "name": "index",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getSupportedTokenCount",
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
             "name": "getSwapQuote",
             "inputs": [
                 {
@@ -605,6 +542,82 @@
                     "name": "amountOut",
                     "type": "uint256",
                     "internalType": "uint256"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "getTokenInfo",
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "address",
+                    "internalType": "address"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "info",
+                    "type": "tuple",
+                    "internalType": "struct OveSwap.TokenInfo",
+                    "components": [
+                        {
+                            "name": "tokenAddress",
+                            "type": "address",
+                            "internalType": "address"
+                        },
+                        {
+                            "name": "isSupported",
+                            "type": "bool",
+                            "internalType": "bool"
+                        },
+                        {
+                            "name": "isActive",
+                            "type": "bool",
+                            "internalType": "bool"
+                        },
+                        {
+                            "name": "manualExchangeRate",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "currentExchangeRate",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "hasPriceFeed",
+                            "type": "bool",
+                            "internalType": "bool"
+                        },
+                        {
+                            "name": "priceFeedAddress",
+                            "type": "address",
+                            "internalType": "address"
+                        },
+                        {
+                            "name": "tokenPriceUSD",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        },
+                        {
+                            "name": "usingAutomaticPricing",
+                            "type": "bool",
+                            "internalType": "bool"
+                        },
+                        {
+                            "name": "manualRateOverride",
+                            "type": "bool",
+                            "internalType": "bool"
+                        },
+                        {
+                            "name": "contractBalance",
+                            "type": "uint256",
+                            "internalType": "uint256"
+                        }
+                    ]
                 }
             ],
             "stateMutability": "view"
@@ -750,6 +763,19 @@
                     "name": "amount",
                     "type": "uint256",
                     "internalType": "uint256"
+                }
+            ],
+            "outputs": [],
+            "stateMutability": "nonpayable"
+        },
+        {
+            "type": "function",
+            "name": "removePriceFeed",
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "address",
+                    "internalType": "address"
                 }
             ],
             "outputs": [],
@@ -914,6 +940,25 @@
                     "name": "",
                     "type": "bool",
                     "internalType": "bool"
+                }
+            ],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "supportedTokensList",
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address",
+                    "internalType": "address"
                 }
             ],
             "stateMutability": "view"

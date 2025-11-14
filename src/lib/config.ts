@@ -1,6 +1,6 @@
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
-import { bscTestnet, type AppKitNetwork } from '@reown/appkit/networks'
+import { bsc, type AppKitNetwork } from '@reown/appkit/networks'
 import { QueryClient } from '@tanstack/react-query'
 
 // 0. Setup queryClient
@@ -13,12 +13,12 @@ export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || ''
 const metadata = {
   name: 'OVE Swap',
   description: 'Token swap platform for OVE tokens',
-  url: 'https://oveswap.com', // origin must match your domain & subdomain
+  url: 'https://ovenswap.online', // origin must match your domain & subdomain
   icons: ['https://avatars.githubusercontent.com/u/179229932']
 }
 
 // 3. Set the networks
-const networks: [AppKitNetwork, ...AppKitNetwork[]] = [bscTestnet]
+const networks: [AppKitNetwork, ...AppKitNetwork[]] = [bsc]
 
 // 4. Create Wagmi Adapter
 export const wagmiAdapter = new WagmiAdapter({
@@ -42,9 +42,9 @@ createAppKit({
   }
 })
 
-// Contract addresses from deployment
+// Contract addresses from deployment (MAINNET)
 export const CONTRACT_ADDRESSES = {
-  OVE_TOKEN: '0x0eF7F6228dA35800B714C6E55c01f3d368B51942',
-  TOKEN_SWAP: '0x786CB860D6245c22206f5bA67956301a95c1de4b', // Updated to new contract with fees
-  NATIVE_BNB: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE' // Native BNB address used in deployment
+  OVE_TOKEN: '0x0d5556E58862A21db65B4Aa180da231cfE6140fE', // Mainnet OVE Token
+  TOKEN_SWAP: '0x068571Ec22C648Fa740F4A9857FA222d7901A4aD', // Mainnet OveSwap Contract
+  NATIVE_BNB: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE' // Native BNB address
 }

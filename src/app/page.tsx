@@ -25,7 +25,6 @@ export default function Home() {
   const [bnbPriceUSD, setBnbPriceUSD] = useState('0') // Default BNB price
   const [isCalculating, setIsCalculating] = useState(false)
   const [isSwapping, setIsSwapping] = useState(false)
-  const [swapError, setSwapError] = useState('')
   const [isFlipped, setIsFlipped] = useState(false) // false: BNB→OVE, true: OVE→BNB
   const [isScrolled, setIsScrolled] = useState(false)
   const { isConnected, address } = useAccount()
@@ -90,7 +89,6 @@ export default function Home() {
     setToAmount('')
     setFeeAmount('')
     setFeeAmountUSDT('0')
-    setSwapError('')
   }
 
   // Fetch current fees
@@ -188,8 +186,6 @@ export default function Home() {
     const value = e.target.value
     setFromAmount(value)
     calculateOutputAmount(value)
-    // Clear previous messages when user starts typing
-    setSwapError('')
   }
 
   // Fetch fees and BNB price when wallet client is available
@@ -225,17 +221,22 @@ export default function Home() {
   // Handle swap transaction
   const handleSwap = async () => {
     if (!walletClient || !fromAmount || parseFloat(fromAmount) <= 0) {
-      setSwapError(t('error.invalidAmount'))
+      toast.error('❌ Please enter a valid amount', {
+        duration: 3000,
+        position: 'top-right',
+      })
       return
     }
 
     if (!isConnected) {
-      setSwapError(t('error.connectWallet'))
+      toast.error('❌ Please connect your wallet', {
+        duration: 3000,
+        position: 'top-right',
+      })
       return
     }
 
     setIsSwapping(true)
-    setSwapError('')
 
     try {
       const ethersProvider = new BrowserProvider(walletClient.transport)
@@ -313,12 +314,44 @@ export default function Home() {
 
     } catch (error: unknown) {
       console.error('Swap error:', error)
-      const errorMessage = error instanceof Error ? error.message : t('error.swapFailed')
-      setSwapError(errorMessage)
+      
+      // Parse error message to show user-friendly messages
+      let errorMessage = t('error.swapFailed')
+      
+      if (error instanceof Error) {
+        const errMsg = error.message.toLowerCase()
+        
+        // User rejected transaction
+        if (errMsg.includes('user rejected') || errMsg.includes('user denied') || errMsg.includes('action_rejected')) {
+          errorMessage = 'Transaction cancelled by user'
+        }
+        // Insufficient balance
+        else if (errMsg.includes('insufficient funds') || errMsg.includes('insufficient balance')) {
+          errorMessage = 'Insufficient balance for this transaction'
+        }
+        // Gas estimation failed
+        else if (errMsg.includes('gas') && errMsg.includes('estimation')) {
+          errorMessage = 'Transaction may fail. Please check your balance and try again'
+        }
+        // Network error
+        else if (errMsg.includes('network') || errMsg.includes('timeout')) {
+          errorMessage = 'Network error. Please check your connection'
+        }
+        // Contract error
+        else if (errMsg.includes('execution reverted')) {
+          errorMessage = 'Transaction failed. Please check token allowance and liquidity'
+        }
+        // Generic error - show first 100 chars only
+        else {
+          errorMessage = error.message.length > 100 
+            ? error.message.substring(0, 100) + '...' 
+            : error.message
+        }
+      }
       
       // Show error toast
-      toast.error(`❌ Swap failed: ${errorMessage}`, {
-        duration: 6000,
+      toast.error(`❌ ${errorMessage}`, {
+        duration: 5000,
         position: 'top-right',
         style: {
           background: '#ef4444',
@@ -781,24 +814,6 @@ export default function Home() {
                 </div>
               </div>
             )}
-
-
-            {/* Error Message - Always show if there's an error */}
-            {swapError && (
-              <div className={`${fromAmount && toAmount && feeAmount ? '' : 'mt-6'}`}>
-                <div className="card p-6 border-l-4 border-red-500 bg-red-50 animate-fade-in-up">
-                  <div className="flex items-center">
-                    <svg className="w-5 h-5 mr-3 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                    <div>
-                      <h4 className="font-semibold text-red-800">Transaction Error</h4>
-                      <p className="text-red-700 text-sm mt-1">{swapError}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       )}
@@ -917,4 +932,3 @@ export default function Home() {
 
   )
 }
-
