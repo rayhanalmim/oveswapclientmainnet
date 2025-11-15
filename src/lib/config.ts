@@ -18,7 +18,7 @@ const metadata = {
 }
 
 // 3. Set the networks
-const networks: [AppKitNetwork, ...AppKitNetwork[]] = [bsc]
+export const networks: [AppKitNetwork, ...AppKitNetwork[]] = [bsc]
 
 // 4. Create Wagmi Adapter
 export const wagmiAdapter = new WagmiAdapter({
@@ -27,20 +27,22 @@ export const wagmiAdapter = new WagmiAdapter({
   ssr: true
 })
 
-// 5. Create modal
-createAppKit({
-  adapters: [wagmiAdapter],
-  networks,
-  projectId,
-  metadata,
-  features: {
-    analytics: true, // Optional - defaults to your Cloud configuration
-    swaps: false, // Disable swap feature
-    onramp: false, // Disable on-ramp feature
-    email: true, // Keep email login
-    socials: ['google', 'github', 'apple', 'facebook'] // Enable social logins
-  }
-})
+// 5. Create modal - only on client side
+if (typeof window !== 'undefined') {
+  createAppKit({
+    adapters: [wagmiAdapter],
+    networks,
+    projectId,
+    metadata,
+    features: {
+      analytics: true,
+      swaps: false,
+      onramp: false,
+      email: true,
+      socials: ['google', 'github', 'apple', 'facebook']
+    }
+  })
+}
 
 // Contract addresses from deployment (MAINNET)
 export const CONTRACT_ADDRESSES = {
