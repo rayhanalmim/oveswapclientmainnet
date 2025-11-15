@@ -15,8 +15,8 @@ createAppKit({
     analytics: true,
     swaps: false,
     onramp: false,
-    email: true,
-    socials: ['google', 'github', 'apple', 'facebook']
+    email: false,
+    socials: []
   }
 })
 
