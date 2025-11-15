@@ -1,4 +1,3 @@
-import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { bsc, type AppKitNetwork } from '@reown/appkit/networks'
 import { QueryClient } from '@tanstack/react-query'
@@ -10,7 +9,7 @@ export const queryClient = new QueryClient()
 export const projectId = '419ac5d4d69e32a2f43d237b37b00791'
 
 // 2. Create a metadata object - optional
-const metadata = {
+export const metadata = {
   name: 'OVE Swap',
   description: 'Token swap platform for OVE tokens',
   url: 'https://ovenswap.online', // origin must match your domain & subdomain
@@ -26,23 +25,6 @@ export const wagmiAdapter = new WagmiAdapter({
   projectId,
   ssr: true
 })
-
-// 5. Create modal - only on client side
-if (typeof window !== 'undefined') {
-  createAppKit({
-    adapters: [wagmiAdapter],
-    networks,
-    projectId,
-    metadata,
-    features: {
-      analytics: true,
-      swaps: false,
-      onramp: false,
-      email: true,
-      socials: ['google', 'github', 'apple', 'facebook']
-    }
-  })
-}
 
 // Contract addresses from deployment (MAINNET)
 export const CONTRACT_ADDRESSES = {
