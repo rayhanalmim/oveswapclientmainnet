@@ -7,7 +7,7 @@ import { QueryClient } from '@tanstack/react-query'
 export const queryClient = new QueryClient()
 
 // 1. Get projectId from https://dashboard.reown.com
-export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || ''
+export const projectId = '419ac5d4d69e32a2f43d237b37b00791'
 
 // 2. Create a metadata object - optional
 const metadata = {
