@@ -7,6 +7,7 @@ import { BrowserProvider, Contract, formatEther, parseEther, Eip1193Provider } f
 import { CONTRACT_ADDRESSES } from '@/lib/config'
 import TokenSwapABI from '@/ABI/oveTokenSwapAbi/TokenSwapWithNativeBNB.json'
 import IERC20ABI from '@/ABI/oveTokenSwapAbi/IERC20.json'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 // BSC Testnet Chain ID
 const BSC_TESTNET_CHAIN_ID = 97
@@ -49,6 +50,7 @@ const SUPPORTED_TOKENS: Token[] = [
 export default function SwapInterface() {
   const { address, isConnected } = useAppKitAccount()
   const { walletProvider } = useAppKitProvider('eip155')
+  const { t } = useLanguage()
   
   const [fromToken, setFromToken] = useState<Token>(SUPPORTED_TOKENS[0])
   const [toToken, setToToken] = useState<Token>(SUPPORTED_TOKENS[1])
@@ -525,15 +527,15 @@ export default function SwapInterface() {
       {/* Transaction Info */}
       {toAmount && (
         <div className="mt-6 p-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl border border-gray-200/50">
-          <h4 className="font-semibold text-gray-800 mb-4">Transaction Summary</h4>
+          <h4 className="font-semibold text-gray-800 mb-4">{t('swap.transactionSummary')}</h4>
           <div className="space-y-3 text-sm">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">You pay:</span>
+              <span className="text-gray-600">{t('swap.youPay')}</span>
               <span className="font-semibold text-gray-800">{fromAmount} {fromToken.symbol}</span>
             </div>
             {feeAmount && (
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">Trading fee ({fromToken.symbol === 'OVE' ? sellFee : buyFee}%):</span>
+                <span className="text-gray-600">{t('swap.tradingFee')} ({fromToken.symbol === 'OVE' ? sellFee : buyFee}%):</span>
                 <div className="text-right">
                   <span className="font-semibold text-orange-600">
                     {parseFloat(feeAmountUSDT) > 0 ? `$${feeAmountUSDT} USDT` : `${parseFloat(feeAmount).toFixed(6)} ${fromToken.symbol === 'OVE' ? toToken.symbol : fromToken.symbol}`}
@@ -545,7 +547,7 @@ export default function SwapInterface() {
               </div>
             )}
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">You receive:</span>
+              <span className="text-gray-600">{t('swap.youReceive')}</span>
               <span className="font-semibold text-green-600">{parseFloat(toAmount).toFixed(6)} {toToken.symbol}</span>
             </div>
             {exchangeRate !== '0' && (

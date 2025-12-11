@@ -6,6 +6,7 @@ import { useAppKit } from '@reown/appkit/react'
 import WalletModal from '@/components/WalletModal'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import { useWalletBalance } from '@/hooks/useWalletBalance'
+import { useTokenPrices } from '@/hooks/useTokenPrices'
 import { useWalletClient } from 'wagmi'
 import { BrowserProvider, Contract, parseEther, formatEther } from 'ethers'
 import { CONTRACT_ADDRESSES } from '@/lib/config'
@@ -31,6 +32,7 @@ export default function Home() {
   const { open } = useAppKit()
   const { data: walletClient } = useWalletClient()
   const { balances, isLoading: balancesLoading, refetch: refetchBalances } = useWalletBalance()
+  const { prices, isLoading: pricesLoading } = useTokenPrices()
   const { t } = useLanguage()
 
   // Get balance for specific tokens
@@ -40,6 +42,19 @@ export default function Home() {
     return balance
   }
   const getOVEBalance = () => balances.find(b => b.symbol === 'OVE')?.formattedBalance || '0 OVE'
+
+  // Get current token prices
+  const getOVEPrice = () => {
+    console.log('Prices array:', prices)
+    const ovePrice = prices.find(p => p.symbol === 'OVE')?.price || '$0.0000'
+    console.log('OVE Price returned:', ovePrice)
+    return ovePrice
+  }
+  const getBNBPrice = () => {
+    const bnbPrice = prices.find(p => p.symbol === 'BNB')?.price || '$0.00'
+    console.log('BNB Price returned:', bnbPrice)
+    return bnbPrice
+  }
 
   const handleWalletClick = () => {
     if (isConnected) {
@@ -637,7 +652,31 @@ export default function Home() {
             }`}>
               <div className="swap-modal-live p-8 animate-slide-in-right perspective-card">
                 <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-3xl font-bold text-white text-glow">{t('swap.title')}</h2>
+                  <div>
+                    <h2 className="text-3xl font-bold text-white text-glow">{t('swap.title')}</h2>
+                    <div className="flex items-center space-x-4 mt-2">
+                      <div className="flex items-center space-x-2">
+                        <span className="text-white/70 text-sm">OVE Price:</span>
+                        <span className="text-orange-400 font-bold text-sm">
+                          {pricesLoading ? (
+                            <div className="inline-block w-12 h-3 bg-orange-400/20 rounded animate-pulse"></div>
+                          ) : (
+                            getOVEPrice()
+                          )}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-white/70 text-sm">BNB Price:</span>
+                        <span className="text-yellow-400 font-bold text-sm">
+                          {pricesLoading ? (
+                            <div className="inline-block w-12 h-3 bg-yellow-400/20 rounded animate-pulse"></div>
+                          ) : (
+                            getBNBPrice()
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                   <div className="flex items-center space-x-3">
                     <div className="flex items-center space-x-2 px-3 py-1.5 bg-green-500/20 rounded-full border border-green-400/30">
                       <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse-soft"></div>
@@ -762,15 +801,15 @@ export default function Home() {
                     <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                     </svg>
-                    Transaction Summary
+                    {t('swap.transactionSummary')}
                   </h4>
                   <div className="space-y-4">
                     <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg transform transition-all duration-300 hover:bg-gray-100">
-                      <span className="text-gray-600 font-medium">You pay:</span>
+                      <span className="text-gray-600 font-medium">{t('swap.youPay')}</span>
                       <span className="font-bold text-gray-800">{fromAmount} {isFlipped ? 'OVE' : 'BNB'}</span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-orange-50 rounded-lg border border-orange-200 transform transition-all duration-300 hover:bg-orange-100">
-                      <span className="text-gray-600 font-medium">Trading fee ({isFlipped ? sellFee : buyFee}%):</span>
+                      <span className="text-gray-600 font-medium">{t('swap.tradingFee')} ({isFlipped ? sellFee : buyFee}%):</span>
                       <div className="text-right">
                         <span className="font-bold text-orange-600">
                           {parseFloat(feeAmountUSDT) > 0 ? `$${feeAmountUSDT} USDT` : `${feeAmount} ${isFlipped ? 'BNB' : 'OVE'}`}
@@ -783,7 +822,7 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg border border-green-200 transform transition-all duration-300 hover:bg-green-100">
-                      <span className="text-gray-600 font-medium">You receive:</span>
+                      <span className="text-gray-600 font-medium">{t('swap.youReceive')}</span>
                       <span className="font-bold text-green-600 text-lg">{toAmount} {isFlipped ? 'BNB' : 'OVE'}</span>
                     </div>
                   </div>
@@ -795,19 +834,19 @@ export default function Home() {
                     <svg className="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    Trading Info
+                    {t('swap.tradingInfo')}
                   </h4>
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-white">Network:</span>
+                      <span className="text-white">{t('swap.network')}</span>
                       <span className="font-semibold text-white">BSC Testnet</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-white">Slippage:</span>
+                      <span className="text-white">{t('swap.slippage')}</span>
                       <span className="font-semibold text-white">0.5%</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-white">Min. received:</span>
+                      <span className="text-white">{t('swap.minReceived')}</span>
                       <span className="font-semibold text-white">{toAmount ? (parseFloat(toAmount) * 0.995).toFixed(4) : '0'} {isFlipped ? 'BNB' : 'OVE'}</span>
                     </div>
                   </div>

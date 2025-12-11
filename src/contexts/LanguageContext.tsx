@@ -50,6 +50,14 @@ const translations = {
     'swap.swapping': 'Swapping...',
     'swap.bnbToOve': 'Swap BNB for OVE',
     'swap.oveToBnb': 'Swap OVE for BNB',
+    'swap.transactionSummary': 'Transaction Summary',
+    'swap.youPay': 'You pay:',
+    'swap.tradingFee': 'Trading fee',
+    'swap.youReceive': 'You receive:',
+    'swap.tradingInfo': 'Trading Info',
+    'swap.network': 'Network:',
+    'swap.slippage': 'Slippage:',
+    'swap.minReceived': 'Min. received:',
 
     // Features Section
     'features.title': 'Platform Features',
@@ -151,6 +159,14 @@ const translations = {
     'swap.swapping': 'スワップ中...',
     'swap.bnbToOve': 'BNBをOVEにスワップ',
     'swap.oveToBnb': 'OVEをBNBにスワップ',
+    'swap.transactionSummary': '取引概要',
+    'swap.youPay': '支払い額:',
+    'swap.tradingFee': '取引手数料',
+    'swap.youReceive': '受取額:',
+    'swap.tradingInfo': '取引情報',
+    'swap.network': 'ネットワーク:',
+    'swap.slippage': 'スリッページ:',
+    'swap.minReceived': '最小受取額:',
 
     // Features Section
     'features.title': 'プラットフォーム機能',
