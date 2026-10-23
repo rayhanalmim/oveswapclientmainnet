@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node api.js && next dev --turbopack",
+    "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "start": "node api.js && next start -p 4100",
+    "start": "next start -p 4100",
     "lint": "eslint"
   },
   "dependencies": {
